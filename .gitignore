@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.lerna-debug.log*
+
+# Runtime data
+*.log
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+.env # Environment variables (very important to ignore if you use .env files)
+.env.*local # Local environment variables
+
+# Miscellaneous
+.vscode/ # VS Code editor settings
+.idea/ # IntelliJ/WebStorm IDE settings
+*.sublime-project # Sublime Text editor settings
+*.sublime-workspace
+.eslintcache
+.nyc_output/
+.temp/
+.cache/
+/dist/ # If you compile your code to a 'dist' directory
+/build/ # Another common build output directory name
+/out/ # Another common build output directory name
+
+# Test files
+/coverage/
+
+# Vercel / Netlify
+.vercel/
+.netlify/
+
+# Next.js
+.next/
+
+# NPM package manager
+.npm/
+
+# Typescript
+*.tsbuildinfo
