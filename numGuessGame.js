@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {Command} from 'commander';
+import readline from 'readline';
 
 const game = new Command();
 game
@@ -9,10 +10,13 @@ game
     .option('-p, --play','Starts the game');
 game.parse();
 
+const randomNumber = Math.floor(Math.random());
+
+
 game
     .command('play')
     .action(()=>{
-        console.log("Inside the play area");
+        console.log("Select the mode you want to play!");
     });
 game.parse();
 const options = game.opts();
