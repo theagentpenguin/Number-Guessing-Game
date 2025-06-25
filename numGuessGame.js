@@ -2,7 +2,7 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import gradient from 'gradient-string';
+//import gradient from 'gradient-string';
 import chalkAnimation from 'chalk-animation';
 // import figlet from 'figlet';
 import { createSpinner } from 'nanospinner';
@@ -11,12 +11,17 @@ let numberOfChances = 0;
 let chancesTaken = 0;
 const sleep = (ms = 3000) => new Promise((r)=> setTimeout(r,ms));
 
-//const randomNumber = Math.floor(Math.random()*100);
+//const randomNumber = Math.floor(Math.random()*101);
 const randomNumber = 8;
 let userGuess;
 let gameLevel;
 
-
+/************************************************************************
+Name of the function: game()
+Inputs: no arguments
+Output: This is the fist function that is called. 
+        It welcomes the player and gives instructions
+*************************************************************************/
 async function game(){
     console.clear();
     const welcomeMessage = chalkAnimation.karaoke(
@@ -31,19 +36,25 @@ async function game(){
 
         `);
 }
-
+/************************************************************************
+Name of the function: chooseLevel()
+Inputs: no arguments
+Output: This function shows the available difficulty levels and gets the
+        input from the user.
+*************************************************************************/
 async function chooseLevel(){
     const levels = await inquirer.prompt({
         name : 'diff_level',
         type: 'list',
-        message: 'Select your difficulty level',
+        message: `Select your difficulty level:
+        Easy: 10 Chances
+        Medium: 5 chances
+        Difficult: 3 chances`,
         choices: [
             'Easy',
             'Medium',
             'Difficult'
         ],
-        
-
     });
     gameLevel = levels.diff_level;
     console.log("Game level: "+gameLevel);
@@ -56,7 +67,12 @@ async function chooseLevel(){
     }
     //console.log(userGuess);
 }
-
+/************************************************************************
+Name of the function: numGuess()
+Inputs: no arguments
+Output: This gets the guessed number from the player and calls solutionCheck
+        function to evaluate it.
+*************************************************************************/
 async function numGuess(){
     if(chancesTaken > numberOfChances){
     loser();
@@ -74,33 +90,51 @@ async function numGuess(){
     //console.log(userGuess);
     return solutionCheck(userGuess);
 }
-
+/************************************************************************
+Name of the function: solutionCheck(userGuess)
+Inputs: userGuess -> the number guessed by the player
+Output: Evaluates the guessed number and declares winner if the guess is correct.
+        Else, calls numGuess recursively till the chances run out.
+*************************************************************************/
 async function solutionCheck(userGuess){
     
     const spinner = createSpinner('Lets check it!!!');
-    spinner.start();
-    await sleep(1000);
+    
     chancesTaken++;
     if(userGuess == randomNumber){
-//        spinner.success('Good guess!');
         winner();
     } else {
+        spinner.start();
+        await sleep(1000);
+        if(userGuess > randomNumber){
+            spinner.error(`The number is less than ${userGuess}, guess again`);
+        }
+        if(userGuess < randomNumber){
+            spinner.error(`The number is greater than ${userGuess}, guess again`);
+        }
         
-        spinner.error('Its an incorrect guess, guess again');
         return numGuess();
         
     }
 }
-
+/************************************************************************
+Name of the function: winner()
+Inputs: no arguments
+Output: Shows the victory banner if the player wins
+*************************************************************************/
 function winner(){
     console.clear();
     const msg = `   Congratulations!
     
-    You have Guessed it correctly!!!`;
+    You have Guessed it correctly in ${chancesTaken} attempts!!!`;
     const winBanner = chalkAnimation.karaoke(msg);
-    sleep(5000);    
+    setTimeout(() => process.exit(0), 8000);   
 }
-
+/************************************************************************
+Name of the function: loser()
+Inputs: no arguments
+Output: shows the loser banner if the player loses
+*************************************************************************/
 function loser(){
     console.clear();
     const msg = `   
@@ -108,10 +142,8 @@ function loser(){
     You've run out of chances!
     
     Better luck next time!`;
-    // const loseBanner = setTimeout(()=>{
-    //     chalkAnimation.karaoke(msg);
-    // },5000);  
-    spinner.error(chalkAnimation.karaoke(msg));
+    const loseBanner = chalkAnimation.karaoke(msg);
+    setTimeout(() => process.exit(0), 8000);
 }
 
 await game();
