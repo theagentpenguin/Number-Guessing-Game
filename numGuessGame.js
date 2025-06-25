@@ -11,8 +11,8 @@ let numberOfChances = 0;
 let chancesTaken = 0;
 const sleep = (ms = 3000) => new Promise((r)=> setTimeout(r,ms));
 
-//const randomNumber = Math.floor(Math.random()*101);
-const randomNumber = 8;
+const randomNumber = Math.floor(Math.random()*101);
+//const randomNumber = 8;
 let userGuess;
 let gameLevel;
 
